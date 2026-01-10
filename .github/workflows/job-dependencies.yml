@@ -1,4 +1,4 @@
-name: Job Dependencies Demo
+name: Job Dependencies 
 
 on:
   push:
