@@ -1,24 +1,21 @@
-name: Job Dependencies 
-
+name: Job Dependencies Demo
 on:
   push:
-
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - run: mkdir build && echo 'test' > build/a.txt
+      - run: mkdir build && echo "hello" > build/file.txt
       - uses: actions/upload-artifact@v4
         with:
-          name: artifact
+          name: build-artifact
           path: build/
-
   deploy:
     needs: build
     runs-on: ubuntu-latest
     steps:
       - uses: actions/download-artifact@v4
         with:
-          name: artifact
+          name: build-artifact
       - run: ls -R
