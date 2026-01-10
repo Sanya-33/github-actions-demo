@@ -1,22 +1,29 @@
 name: Job Dependencies Demo
-"on":
-  push:
-    branches: ["main", "master"]
+
+on: [push, workflow_dispatch]
+
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - run: mkdir build && echo "success" > build/test.txt
-      - uses: actions/upload-artifact@v4
+      - name: Create Artifact
+        run: |
+          mkdir -p build
+          echo "Build successful" > build/result.txt
+      - name: Upload
+        uses: actions/upload-artifact@v4
         with:
           name: build-artifact
           path: build/
+
   deploy:
     needs: build
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/download-artifact@v4
+      - name: Download
+        uses: actions/download-artifact@v4
         with:
           name: build-artifact
-      - run: ls -R
+      - name: Check Artifact
+        run: ls -R
